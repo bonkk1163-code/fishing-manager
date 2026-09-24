@@ -167,6 +167,41 @@ body.locked #lock{display:grid}
 .spchips button[aria-selected="true"] span{color:var(--onKelp);opacity:.8}
 .sphead{font-weight:600;margin:0 2px 10px;color:var(--muted);font-size:.9rem}
 .credit{text-align:center;color:var(--muted);font-size:.85rem;margin:18px 0 0;letter-spacing:.02em}
+.yearsel{margin-left:auto;align-self:flex-end;width:auto;appearance:none;-webkit-appearance:none;font-weight:600;font-size:.88rem;
+  border-radius:999px;padding:8px 34px 8px 14px;background:var(--paper) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23F08A3E' stroke-width='2'/%3E%3C/svg%3E") no-repeat right 13px center;cursor:pointer}
+.tabs button{font-size:clamp(.72rem,3.3vw,.9rem);padding:11px 2px;white-space:nowrap;min-width:0}
+.tabs .count{margin-left:2px}
+.calhead{display:flex;align-items:center;justify-content:space-between;margin:0 0 12px}
+.navb{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-size:1.5rem;line-height:1;cursor:pointer}
+.ym{text-align:center}.ym b{display:block;font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:1.5rem}
+.ym span{font-size:.85rem;color:var(--muted)}
+.calgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:8px}
+.wd{text-align:center;font-size:.78rem;font-weight:600;color:var(--muted);padding:4px 0}
+.sun{color:var(--buoy)}.sat{color:#3B7BC4}
+.cd{aspect-ratio:1/1.15;min-width:0;border:0;border-radius:10px;background:transparent;color:var(--ink);font:inherit;padding:4px 2px;display:flex;flex-direction:column;align-items:center;gap:1px;cursor:pointer;position:relative;overflow:hidden}
+.cd.pad{cursor:default}
+.cd .n{font-size:.9rem;font-weight:600;line-height:1.4}
+.cd.sun .n{color:var(--buoy)}.cd.sat .n{color:#3B7BC4}
+.cd .pl{font-size:.62rem;line-height:1.2;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 2px}
+.cd .more{font-size:.6rem;opacity:.85}
+.cd.plan{background:var(--lure);color:#fff}
+.cd.done{background:var(--kelp);color:var(--onKelp)}
+.cd.plan .n,.cd.done .n{color:inherit}
+.cd.today{box-shadow:inset 0 0 0 2px var(--lure)}
+.cd.plan.today{box-shadow:inset 0 0 0 2px var(--kelp)}
+.cd.sel{outline:2px solid var(--ink);outline-offset:1px}
+.legend{display:flex;gap:16px;align-items:center;font-size:.8rem;color:var(--muted);margin:10px 4px 16px}
+.legend span{display:flex;align-items:center;gap:6px}
+.lg{width:12px;height:12px;border-radius:4px;display:inline-block}.lg.plan{background:var(--lure)}.lg.done{background:var(--kelp)}
+.legend .link{margin-left:auto}
+.dayp{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
+.dayh{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.btn.sm{padding:8px 14px;font-size:.88rem}
+.calitem{border-top:1px solid var(--line);padding:10px 0;cursor:pointer}
+.calitem:first-of-type{border-top:0}
+.calitem h4{margin:0;font-size:1rem}
+.cmemo{font-size:.88rem;margin-top:4px;white-space:pre-wrap}
+.none{color:var(--muted);font-size:.9rem;margin:6px 0 2px}
 .hint{font-size:.82rem;color:var(--muted);margin-top:6px}
 .link{background:none;border:0;padding:0;font:inherit;color:var(--kelp);text-decoration:underline;cursor:pointer}
 :root[data-theme="dark"] .link{color:var(--lure)}
@@ -248,6 +283,7 @@ body.locked #lock{display:grid}
   <div class="tabs" role="tablist">
     <button role="tab" id="tab-trips" aria-selected="true">출조 기록<span class="count" id="c-trips"></span></button>
     <button role="tab" id="tab-gear" aria-selected="false">태클<span class="count" id="c-gear"></span></button>
+    <button role="tab" id="tab-cal" aria-selected="false">출조 캘린더</button>
     <button role="tab" id="tab-fame" aria-selected="false">명예의 전당</button>
   </div>
   <main id="view"><div class="loading">불러오는 중…</div></main>
@@ -269,7 +305,7 @@ body.locked #lock{display:grid}
 const normGear=g=>g&&g.cat==="낚싯대"?{...g,cat:"로드"}:g;
 const GEAR_CATS=["로드","릴","라인","루어·채비","기타"];
 const STATUS={use:"사용중",keep:"보관",fix:"수리 필요"};
-const state={tab:"trips",fameTab:"big",fameSpecies:"",trips:[],gear:[],fame:[],ready:false,sort:(()=>{try{return localStorage.getItem("fishlog:sort")||"desc"}catch{return"desc"}})()};
+const state={tab:"trips",cal:[],calMonth:"",calDay:"",tripYear:"",fameTab:"big",fameSpecies:"",trips:[],gear:[],fame:[],ready:false,sort:(()=>{try{return localStorage.getItem("fishlog:sort")||"desc"}catch{return"desc"}})()};
 let store=null;
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -304,7 +340,7 @@ function localStore(){
   const write=(k,v)=>{localStorage.setItem("fishlog:"+k,JSON.stringify(v))};
   return{
     mode:"기록은 이 폰에만 저장돼요. 폰을 바꾸기 전에 백업 파일을 저장해 두세요.",
-    start(){state.trips=read("trips");state.gear=read("gear").map(normGear);state.fame=read("fame");state.ready=true;render()},
+    start(){state.trips=read("trips");state.gear=read("gear").map(normGear);state.fame=read("fame");state.cal=read("cal");state.ready=true;render()},
     async save(kind,item){const a=state[kind].filter(x=>x.id!==item.id);a.push(item);write(kind,a);state[kind]=a;render()},
     async remove(kind,id){const a=state[kind].filter(x=>x.id!==id);write(kind,a);state[kind]=a;render()}
   };
@@ -315,15 +351,15 @@ async function cloudStore(){
   if(!db||!user)return null;
   const me=await user.id(); if(!me)return null;
   const base=db.doc("data/users/"+me+"/log");
-  const col={trips:base.collection("trips"),gear:base.collection("gear"),fame:base.collection("fame")};
+  const col={trips:base.collection("trips"),gear:base.collection("gear"),fame:base.collection("fame"),cal:base.collection("cal")};
   return{
     mode:"내 계정에 저장돼요. 다른 기기에서도 볼 수 있어요.",
     start(){
       let got=0;
       const seen=new Set();
-      for(const k of ["trips","gear","fame"]){
+      for(const k of ["trips","gear","fame","cal"]){
         col[k].onSnapshot(s=>{state[k]=s.docs.map(d=>({...d.data(),id:d.id}));if(k==="gear")state.gear=state.gear.map(normGear);
-          seen.add(k);if(seen.size>=3)state.ready=true; if(state.ready)render()},
+          seen.add(k);if(seen.size>=4)state.ready=true; if(state.ready)render()},
           e=>{toast("저장소 연결이 끊겼어요. 새로고침해 주세요.")});
       }
     },
@@ -341,20 +377,25 @@ function render(){
   $("#tab-trips").setAttribute("aria-selected",state.tab==="trips");
   $("#tab-gear").setAttribute("aria-selected",state.tab==="gear");
   $("#tab-fame").setAttribute("aria-selected",state.tab==="fame");
-  $("#fab").textContent=state.tab==="trips"?"+ 출조 기록 추가":state.tab==="gear"?"+ 태클 등록":state.fameTab==="big"?"+ 최대어 등록":"+ 마릿수 등록";
+  $("#tab-cal").setAttribute("aria-selected",state.tab==="cal");
+  $("#fab").textContent=state.tab==="trips"?"+ 출조 기록 추가":state.tab==="gear"?"+ 태클 등록":state.tab==="cal"?"+ 출조 입력":state.fameTab==="big"?"+ 최대어 등록":"+ 마릿수 등록";
   if(!state.ready)return;
   const v=$("#view");
-  state.tab==="trips"?renderTrips(v):state.tab==="gear"?renderGear(v):renderFame(v);
+  state.tab==="trips"?renderTrips(v):state.tab==="gear"?renderGear(v):state.tab==="cal"?renderCal(v):renderFame(v);
 }
 function renderTrips(v){
-  const dir=state.sort==="asc"?1:-1;
-  const t=[...state.trips].sort((a,b)=>dir*(((a.date||"").localeCompare(b.date||""))||String(a.id).localeCompare(String(b.id))));
+  const all=[...state.trips].sort((a,b)=>((b.date||"").localeCompare(a.date||""))||String(b.id).localeCompare(String(a.id)));
+  const yearOf=x=>(x.date||"").slice(0,4)||"날짜 없음";
+  const years=[...new Set(all.map(yearOf))].sort((a,b)=>b.localeCompare(a));
+  if(state.tripYear&&!years.includes(state.tripYear))state.tripYear="";
+  const t=state.tripYear?all.filter(x=>yearOf(x)===state.tripYear):all;
   if(!t.length){v.innerHTML=`<div class="empty"><svg viewBox="0 0 34 60" aria-hidden="true"><line x1="17" y1="0" x2="17" y2="10" stroke="currentColor" stroke-width="1.5"/><path d="M17 10 C27 20 27 34 17 42 C7 34 7 20 17 10Z" fill="var(--lure)"/><path d="M8.5 28 H25.5" stroke="var(--paper)" stroke-width="3"/><line x1="17" y1="42" x2="17" y2="58" stroke="currentColor" stroke-width="2"/></svg><p>아직 기록이 없어요.<br>첫 출조를 남겨보세요.</p><button class="btn primary" onclick="openTrip()">출조 기록 추가</button></div>`;return}
   const year=new Date().getFullYear()+"";
-  const thisYear=t.filter(x=>(x.date||"").startsWith(year)).length;
-  const places=new Set(t.map(x=>x.place).filter(Boolean)).size;
+  const thisYear=all.filter(x=>(x.date||"").startsWith(year)).length;
+
   const gearName=id=>state.gear.find(g=>g.id===id)?.name;
-  v.innerHTML=`<div class="tally"><div><b>${thisYear}</b>올해 출조</div><div><b>${places}</b>다녀온 포인트</div><button class="sortbtn" id="sortbtn" aria-label="정렬 순서 바꾸기">${state.sort==="asc"?"오래된순 ↑":"최신순 ↓"}</button></div>`+
+  v.innerHTML=`<div class="tally"><div><b>${thisYear}</b>올해 출조</div><div><b>${all.length}</b>총 출조</div>
+    <select class="yearsel" id="yearsel" aria-label="연도별 보기"><option value="">전체 연도</option>${years.map(y=>`<option value="${esc(y)}" ${state.tripYear===y?"selected":""}>${esc(y)}${/^\d{4}$/.test(y)?"년":""} (${all.filter(x=>yearOf(x)===y).length})</option>`).join("")}</select></div>`+
   t.map(x=>{const f=fmtDate(x.date);const g=(x.gearIds||[]).map(gearName).filter(Boolean);
     return `<article class="trip" tabindex="0" data-id="${x.id}">
       <div class="date"><div class="d">${f.d}</div><div class="m">${f.m}</div></div>
@@ -364,7 +405,7 @@ function renderTrips(v){
         ${x.catch?`<div class="catch">${esc(x.catch)}</div>`:""}
         ${g.length?`<div class="chips">${g.map(n=>`<span class="chip">${esc(n)}</span>`).join("")}</div>`:""}
       </div></article>`}).join("");
-  $("#sortbtn").onclick=()=>{state.sort=state.sort==="asc"?"desc":"asc";try{localStorage.setItem("fishlog:sort",state.sort)}catch{};render()};
+  $("#yearsel").onchange=e=>{state.tripYear=e.target.value;render()};
   v.querySelectorAll(".trip").forEach(el=>{const o=()=>openTrip(el.dataset.id);el.onclick=o;el.onkeydown=e=>{if(e.key==="Enter")o()}});
 }
 function renderFame(v){
@@ -461,6 +502,53 @@ function openFame(id){
     if(kind==="count"&&!item.count){$("#f-count").focus();return false}
     if(kind!==state.fameTab){state.fameTab=kind;state.fameSpecies=""}});
 }
+const WD=["일","월","화","수","목","금","토"];
+function renderCal(v){
+  const td=today();
+  if(!state.calMonth)state.calMonth=td.slice(0,7);
+  if(!state.calDay)state.calDay=td;
+  const [Y,M]=state.calMonth.split("-").map(Number);
+  const first=new Date(Y,M-1,1).getDay(), days=new Date(Y,M,0).getDate();
+  const key=d=>`${Y}-${String(M).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
+  const byDay=new Map();
+  state.cal.forEach(c=>{if(!c.date)return;(byDay.get(c.date)||byDay.set(c.date,[]).get(c.date)).push(c)});
+  const monthCount=[...byDay.keys()].filter(k=>k.startsWith(state.calMonth)).length;
+  let cells="";
+  for(let i=0;i<first;i++)cells+=`<div class="cd pad"></div>`;
+  for(let d=1;d<=days;d++){
+    const k=key(d),list=byDay.get(k)||[],wd=(first+d-1)%7;
+    const cls=["cd",list.length?(k<td?"done":"plan"):"",k===td?"today":"",k===state.calDay?"sel":"",wd===0?"sun":wd===6?"sat":""].filter(Boolean).join(" ");
+    cells+=`<button class="${cls}" data-day="${k}" aria-label="${M}월 ${d}일${list.length?`, 출조 ${list.length}건`:""}"><span class="n">${d}</span>${list.length?`<span class="pl">${esc(list[0].place||list[0].target||"출조")}</span>${list.length>1?`<span class="more">+${list.length-1}</span>`:""}`:""}</button>`;
+  }
+  const sd=state.calDay, sdt=new Date(sd+"T00:00");
+  const sel=(byDay.get(sd)||[]);
+  v.innerHTML=`<div class="calhead"><button class="navb" id="cal-prev" aria-label="이전 달">‹</button>
+    <div class="ym"><b>${Y}년 ${M}월</b><span>이번 달 출조 ${monthCount}일</span></div>
+    <button class="navb" id="cal-next" aria-label="다음 달">›</button></div>
+  <div class="calgrid">${WD.map((w,i)=>`<div class="wd ${i===0?"sun":i===6?"sat":""}">${w}</div>`).join("")}${cells}</div>
+  <div class="legend"><span><i class="lg plan"></i>예정 출조</span><span><i class="lg done"></i>다녀온 출조</span>${state.calMonth!==td.slice(0,7)?`<button class="link" id="cal-today">오늘로</button>`:""}</div>
+  <section class="dayp"><div class="dayh"><b>${sdt.getMonth()+1}월 ${sdt.getDate()}일 (${WD[sdt.getDay()]})</b><button class="btn primary sm" id="cal-add">+ 입력</button></div>
+  ${sel.length?sel.map(c=>`<article class="calitem" data-cal="${c.id}" tabindex="0"><h4>${esc(c.place||"출조지 미입력")}</h4>
+    <div class="meta">${[c.target?`대상어 ${c.target}`:"",c.boat?`배 ${c.boat}`:""].filter(Boolean).map(esc).join(" / ")}</div>
+    ${c.memo?`<div class="cmemo">${esc(c.memo)}</div>`:""}</article>`).join(""):`<p class="none">이 날은 입력된 출조가 없어요.</p>`}</section>`;
+  const move=n=>{const d=new Date(Y,M-1+n,1);state.calMonth=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}`;render()};
+  $("#cal-prev").onclick=()=>move(-1);$("#cal-next").onclick=()=>move(1);
+  const ct=$("#cal-today");if(ct)ct.onclick=()=>{state.calMonth=td.slice(0,7);state.calDay=td;render()};
+  v.querySelectorAll("[data-day]").forEach(b=>b.onclick=()=>{state.calDay=b.dataset.day;render()});
+  $("#cal-add").onclick=()=>openCal(null,sd);
+  v.querySelectorAll("[data-cal]").forEach(el=>{const o=()=>openCal(el.dataset.cal);el.onclick=o;el.onkeydown=e=>{if(e.key==="Enter")o()}});
+}
+function openCal(id,date){
+  const c=state.cal.find(x=>x.id===id)||{date:date||today()};
+  form.innerHTML=`<h2>${id?"출조 수정":"출조 입력"}</h2>
+  ${field("날짜","date",c.date,"date")}
+  ${field("출조지","place",c.place,"text","예: 거제 지세포")}
+  <div class="row"><div>${field("이용한 배","boat",c.boat,"text","도보는 비워두기")}</div><div>${field("대상어","target",c.target,"text","예: 참돔")}</div></div>
+  <label for="f-memo">메모</label><textarea id="f-memo" name="memo" placeholder="물때, 준비물, 같이 가는 사람 등">${esc(c.memo)}</textarea>
+  <div class="actions">${id?`<button type="button" class="btn danger" id="del">삭제</button>`:""}<span class="spacer"></span>
+  <button type="button" class="btn ghost" id="cancel">취소</button><button class="btn primary" type="submit">저장</button></div>`;
+  bind("cal",c,id,item=>{if(!item.date){$("#f-date").focus();return false}state.calDay=item.date;state.calMonth=item.date.slice(0,7)});
+}
 function renderGear(v){
   if(!state.gear.length){v.innerHTML=`<div class="empty"><svg viewBox="0 0 34 60" aria-hidden="true"><line x1="17" y1="0" x2="17" y2="10" stroke="currentColor" stroke-width="1.5"/><path d="M17 10 C27 20 27 34 17 42 C7 34 7 20 17 10Z" fill="var(--lure)"/><path d="M8.5 28 H25.5" stroke="var(--paper)" stroke-width="3"/><line x1="17" y1="42" x2="17" y2="58" stroke="currentColor" stroke-width="2"/></svg><p>등록된 태클이 없어요.<br>로드나 릴부터 등록해보세요.</p><button class="btn primary" onclick="openGear()">태클 등록</button></div>`;return}
   const fix=state.gear.filter(g=>g.status==="fix").length;
@@ -542,7 +630,7 @@ function bind(kind,obj,id,finish){
 
 /* ---------- backup, install, offline ---------- */
 $("#export").onclick=()=>{
-  const data={app:"nakssi-manager",version:1,exportedAt:new Date().toISOString(),trips:state.trips,gear:state.gear,fame:state.fame};
+  const data={app:"nakssi-manager",version:1,exportedAt:new Date().toISOString(),trips:state.trips,gear:state.gear,fame:state.fame,cal:state.cal};
   const blob=new Blob([JSON.stringify(data)],{type:"application/json"});
   const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=`낚시매니저-백업-${today()}.json`;
   document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),2000);
@@ -553,7 +641,7 @@ $("#import").onchange=async e=>{
   try{
     const d=JSON.parse(await file.text());
     if(d.app!=="nakssi-manager")throw 0;
-    for(const k of ["trips","gear","fame"]){
+    for(const k of ["trips","gear","fame","cal"]){
       const cur=new Map(state[k].map(x=>[x.id,x]));
       for(const x of (d[k]||[]))if(x&&x.id)cur.set(x.id,k==="gear"?normGear(x):x);
       const arr=[...cur.values()];localStorage.setItem("fishlog:"+k,JSON.stringify(arr));state[k]=arr;
@@ -569,7 +657,8 @@ if("serviceWorker" in navigator)addEventListener("load",()=>navigator.serviceWor
 $("#tab-trips").onclick=()=>{state.tab="trips";render()};
 $("#tab-gear").onclick=()=>{state.tab="gear";render()};
 $("#tab-fame").onclick=()=>{state.tab="fame";render()};
-$("#fab").onclick=()=>state.tab==="trips"?openTrip():state.tab==="gear"?openGear():openFame();
+$("#tab-cal").onclick=()=>{state.tab="cal";render()};
+$("#fab").onclick=()=>state.tab==="trips"?openTrip():state.tab==="gear"?openGear():state.tab==="cal"?openCal(null,state.calDay||today()):openFame();
 $("#lb-close").onclick=()=>$("#lightbox").close();
 $("#lightbox").onclick=e=>{if(e.target.id==="lightbox"||e.target.id==="lb-img")$("#lightbox").close()};
 
