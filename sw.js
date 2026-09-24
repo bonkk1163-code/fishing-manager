@@ -1,5 +1,5 @@
 // 낚시매니저 오프라인 동작용. 앱을 수정해 올릴 때 VERSION 숫자를 올려 주세요.
-const VERSION = "v3";
+const VERSION = "v5";
 const CACHE = "nakssi-" + VERSION;
 const SHELL = ["./", "./index.html", "./manifest.webmanifest",
   "./icons/icon-192-any.png", "./icons/icon-512-any.png",

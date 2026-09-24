@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>낚시매니저</title>
 <meta name="theme-color" content="#0A1F3A">
-<meta name="description" content="출조 기록, 태클 관리, 명예의 전당을 한곳에.">
+<meta name="description" content="기록부터 관리까지 낚시인이 필요한 모든 것!!">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="icon" type="image/png" href="./icons/favicon.png">
 <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
@@ -166,6 +166,7 @@ body.locked #lock{display:grid}
 .spchips button[aria-selected="true"]{background:var(--kelp);border-color:var(--kelp);color:var(--onKelp)}
 .spchips button[aria-selected="true"] span{color:var(--onKelp);opacity:.8}
 .sphead{font-weight:600;margin:0 2px 10px;color:var(--muted);font-size:.9rem}
+.credit{text-align:center;color:var(--muted);font-size:.85rem;margin:18px 0 0;letter-spacing:.02em}
 .hint{font-size:.82rem;color:var(--muted);margin-top:6px}
 .link{background:none;border:0;padding:0;font:inherit;color:var(--kelp);text-decoration:underline;cursor:pointer}
 :root[data-theme="dark"] .link{color:var(--lure)}
@@ -240,7 +241,7 @@ body.locked #lock{display:grid}
   </svg>
   <div class="hero-text">
     <h1>낚시매니저</h1>
-    <p class="sub">다녀온 포인트와 내 태클을 한곳에.</p>
+    <p class="sub">기록부터 관리까지 낚시인이 필요한 모든 것!!</p>
   </div>
 </section>
 <div class="wrap">
@@ -257,6 +258,7 @@ body.locked #lock{display:grid}
     <input type="file" id="import" accept="application/json,.json" class="import-file">
   </section>
   <p class="note" id="mode"></p>
+  <p class="credit">- 제작 안승민 -</p>
 </div>
 <button class="fab" id="fab">+ 출조 기록 추가</button>
 
