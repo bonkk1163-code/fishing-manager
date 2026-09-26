@@ -1,5 +1,5 @@
 // 낚시매니저 오프라인 동작용. 앱을 수정해 올릴 때 VERSION 숫자를 올려 주세요.
-const VERSION = "v8";
+const VERSION = "v14";
 const CACHE = "nakssi-" + VERSION;
 const SHELL = ["./", "./index.html", "./manifest.webmanifest",
   "./icons/icon-192-any.png", "./icons/icon-512-any.png",
@@ -22,6 +22,14 @@ self.addEventListener("fetch", e => {
     e.respondWith(fetch(req).then(res => {
       const copy = res.clone(); caches.open(CACHE).then(c => c.put("./index.html", copy)); return res;
     }).catch(() => caches.match("./index.html")));
+    return;
+  }
+  // 공지사항: 인터넷이 되면 항상 최신, 안 되면 저장해 둔 것
+  if (new URL(req.url).pathname.endsWith("/notices.json")) {
+    e.respondWith(fetch(req, { cache: "no-store" }).then(res => {
+      if (res.ok) { const copy = res.clone(); caches.open(CACHE).then(c => c.put(req, copy)); }
+      return res;
+    }).catch(() => caches.match(req)));
     return;
   }
   // 아이콘·글꼴 등: 저장해 둔 것을 먼저 쓰고 뒤에서 새로 받아 둠
