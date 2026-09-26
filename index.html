@@ -41,13 +41,13 @@ body{margin:0;background:var(--bg);color:var(--ink);
   font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
 .wrap{max-width:640px;margin:0 auto;padding:0 18px 120px}
 .hero{position:relative;height:clamp(280px,62vw,380px);overflow:hidden;background:#8FD8FF;color:#0E3A55}
-.hero svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero>svg{position:absolute;inset:0;width:100%;height:100%;display:block}
 .hero-text{position:absolute;left:0;right:0;top:26px;max-width:640px;margin:0 auto;padding:0 18px}
 .hero h1{text-shadow:0 2px 16px rgba(255,255,255,.55)}
 .hero .sub{color:rgba(14,58,85,.75);font-weight:600}
 .wrap{position:relative;margin-top:-26px}
 h1{font-family:"Black Han Sans","IBM Plex Sans KR",sans-serif;font-weight:400;
-  font-size:clamp(2.4rem,11vw,3.4rem);line-height:.95;margin:0;letter-spacing:-.01em}
+  font-size:clamp(2.1rem,9.5vw,3.4rem);line-height:.95;margin:0;letter-spacing:-.01em}
 .sub{color:var(--muted);margin:10px 0 0;font-size:.95rem}
 .tabs{display:flex;gap:6px;margin:0 0 18px;box-shadow:0 8px 24px rgba(8,23,42,.18);background:var(--paper);padding:5px;border-radius:14px;border:1px solid var(--line)}
 .tabs button{flex:1;border:0;background:transparent;color:var(--muted);font:inherit;font-weight:600;
@@ -118,6 +118,7 @@ textarea{min-height:76px;resize:vertical}
 .fame .ph img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover}
 .fb{display:flex;gap:12px;align-items:flex-start;padding:14px}
 .rank{flex:none;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-family:"Black Han Sans",sans-serif;font-size:1.2rem;border:2px solid var(--line);color:var(--muted)}
+.trophy{flex:none;width:46px;height:54px}.trophy svg{width:100%;height:100%;display:block;filter:drop-shadow(0 2px 3px rgba(14,58,85,.18))}
 .rank.r1{background:#E7B93E;border-color:#E7B93E;color:#3a2a00}
 .rank.r2{background:#C3CCD4;border-color:#C3CCD4;color:#26313a}
 .rank.r3{background:#C98A5A;border-color:#C98A5A;color:#2e1a0c}
@@ -203,13 +204,55 @@ body.locked #lock{display:grid}
 .cmemo{font-size:.88rem;margin-top:4px;white-space:pre-wrap}
 .none{color:var(--muted);font-size:.9rem;margin:6px 0 2px}
 .hero-bar{position:absolute;left:0;right:0;top:20px;max-width:640px;margin:0 auto;padding:0 18px;display:flex;justify-content:flex-end;z-index:2;pointer-events:none}
+.hero-bar{gap:8px;align-items:center}
+.lvl{pointer-events:auto;height:46px;border:0;border-radius:999px;background:rgba(255,255,255,.92);color:#0E3A55;display:flex;align-items:center;gap:6px;
+  padding:0 14px 0 5px;font:inherit;cursor:pointer;box-shadow:0 4px 14px rgba(14,58,85,.22)}
+.lvl b{font-size:.95rem;font-weight:800;letter-spacing:.01em}
+.lvl-ic{width:36px;height:36px;border-radius:50%;background:#EAF6FF;display:grid;place-items:center}
+.lvl-ic svg{width:30px;height:30px}
+.lv-now{text-align:center;padding:6px 0 14px}
+.lv-now .big-ic{width:96px;height:96px;margin:0 auto 6px;border-radius:50%;background:#EAF6FF;display:grid;place-items:center}
+.lv-now .big-ic svg{width:78px;height:78px}
+.lv-now h3{margin:0;font-size:1.35rem}
+.lv-now p{margin:4px 0 0;color:var(--muted);font-size:.92rem}
+.lv-bar{height:12px;border-radius:999px;background:var(--line);overflow:hidden;margin:12px 0 6px}
+.lv-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--kelp),var(--lure));border-radius:999px}
+.lv-list{list-style:none;margin:14px 0 0;padding:0}
+.lv-list li{display:flex;align-items:center;gap:12px;padding:9px 0;border-top:1px solid var(--line)}
+.lv-list .ic{width:44px;height:44px;border-radius:50%;background:#EAF6FF;display:grid;place-items:center;flex:none}
+.lv-list .ic svg{width:36px;height:36px}
+.lv-list .t{flex:1}.lv-list .t b{display:block}.lv-list .t span{font-size:.82rem;color:var(--muted)}
+.lv-list li.lock .ic svg{filter:grayscale(1);opacity:.35}.lv-list li.lock .ic{--ring:var(--line)}.lv-list li.lock .t{opacity:.55}
+.lv-list li.cur{background:color-mix(in srgb,var(--lure) 12%,transparent);border-radius:12px;padding-left:8px;padding-right:8px}
+.lv-list .tag{font-size:.72rem;font-weight:700;color:#fff;background:var(--lure);border-radius:999px;padding:2px 8px}
+.lv-up{font-size:.85rem;font-weight:800;color:var(--lure);letter-spacing:.08em}
+@property --ra{syntax:"<angle>";inherits:false;initial-value:0deg}
+.lv-0{--ring:linear-gradient(135deg,#8E979E,#B3BAC0)}
+.lv-1{--ring:linear-gradient(135deg,#A0643A,#D99A66,#8A5230)}
+.lv-2{--ring:linear-gradient(135deg,#9FAAB4,#EEF2F5,#8C98A3)}
+.lv-3{--ring:linear-gradient(135deg,#7B4FD1,#C49BFF,#6A3DC2)}
+.lv-4{--ring:linear-gradient(135deg,#C9971C,#FFE38A,#B8860B,#F7D774)}
+.lv-admin{--ring:conic-gradient(from var(--ra),#FF5A5A,#FFA64D,#FFE14D,#5EE07A,#4DC3FF,#7A6BFF,#D86BFF,#FF5A5A);animation:ringspin 4s linear infinite}
+@keyframes ringspin{to{--ra:360deg}}
+@media (prefers-reduced-motion:reduce){.lv-admin{animation:none}}
+.lvl{border:3px solid transparent;background:linear-gradient(rgba(255,255,255,.95),rgba(255,255,255,.95)) padding-box,var(--ring,#fff) border-box}
+.ring,.lv-list .ic.ring,.lv-now .big-ic.ring{border:3px solid transparent;background:linear-gradient(#EAF6FF,#EAF6FF) padding-box,var(--ring,#EAF6FF) border-box}
+.lv-now .big-ic.ring{border-width:5px}
+.lvl.lv-4 b{color:#A87908}
+.lvl.lv-admin b{background:linear-gradient(90deg,#E8453C,#F29A1F,#2FB35A,#2E8FE0,#8A4FE0);-webkit-background-clip:text;background-clip:text;color:transparent}
+.adm-row{text-align:center;margin:14px 0 0;font-size:.82rem}
+.adm-row .link{color:var(--muted)}
+.adm-form{display:flex;gap:8px;margin-top:8px}
+.adm-form[hidden]{display:none}
+.adm-form input{text-transform:uppercase;letter-spacing:.12em}
+.adm-msg{text-align:center;color:var(--buoy);font-size:.85rem;margin:6px 0 0;min-height:1em}
 .bell{pointer-events:auto;position:relative;width:46px;height:46px;border-radius:50%;border:0;background:rgba(255,255,255,.92);color:#0E3A55;
   display:grid;place-items:center;cursor:pointer;box-shadow:0 4px 14px rgba(14,58,85,.22)}
 .bell svg{width:24px;height:24px}
 .badge{position:absolute;top:-3px;right:-3px;min-width:20px;height:20px;padding:0 5px;border-radius:999px;background:var(--buoy);color:#fff;
   font-size:.72rem;font-weight:700;display:grid;place-items:center;border:2px solid #fff}
 .badge[hidden]{display:none}
-.hero-text h1{padding-right:64px}
+.hero-text h1{padding-right:0}
 .notice-wrap{padding:22px 20px calc(20px + env(safe-area-inset-bottom,0px))}
 .notice-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
 .notice-head h2{font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:1.6rem;margin:0}
@@ -299,7 +342,7 @@ body.locked #lock{display:grid}
     </g>
     <path d="M0 260 L0 214 Q40 202 80 210 T160 210 T240 206 T320 212 T400 206 L400 260Z" fill="var(--bg)"/>
   </svg>
-  <div class="hero-bar"><button class="bell" id="bell" type="button" aria-label="공지사항 보기">
+  <div class="hero-bar"><button class="lvl" id="lvl" type="button" aria-label="내 레벨 보기"><span class="lvl-ic" id="lvl-ic"></span><b id="lvl-tx">Lv.0</b></button><button class="bell" id="bell" type="button" aria-label="공지사항 보기">
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a6 6 0 0 0-6 6v3.6L4.3 15.4A1 1 0 0 0 5.2 17h13.6a1 1 0 0 0 .9-1.6L18 12.6V9a6 6 0 0 0-6-6Z" fill="currentColor"/><path d="M9.5 18.5a2.5 2.5 0 0 0 5 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
     <span class="badge" id="bell-badge" hidden></span></button></div>
   <div class="hero-text">
@@ -326,6 +369,9 @@ body.locked #lock{display:grid}
 </div>
 <button class="fab" id="fab">+ 출조 기록 추가</button>
 
+<dialog id="lvl-dlg" aria-labelledby="lvl-title"><div class="notice-wrap">
+  <div class="notice-head"><h2 id="lvl-title">내 레벨</h2><button class="btn ghost sm" id="lvl-close" type="button">닫기</button></div>
+  <div id="lvl-body"></div></div></dialog>
 <dialog id="notice-dlg" aria-labelledby="notice-title"><div class="notice-wrap">
   <div class="notice-head"><h2 id="notice-title">공지사항</h2><button class="btn ghost sm" id="notice-close" type="button">닫기</button></div>
   <div id="notice-list"></div></div></dialog>
@@ -408,6 +454,7 @@ function toast(msg){$("#mode").textContent=msg}
 /* ---------- rendering ---------- */
 function fmtDate(s){if(!s)return{d:"–",m:""};const [y,m,d]=s.split("-");return{d:+d,m:`${y}.${m}`}}
 function render(){
+  if(typeof updateLevel==="function")updateLevel();
   $("#c-trips").textContent=state.trips.length||"";
   $("#c-gear").textContent=state.gear.length||"";
   $("#tab-trips").setAttribute("aria-selected",state.tab==="trips");
@@ -444,6 +491,15 @@ function renderTrips(v){
   $("#yearsel").onchange=e=>{state.tripYear=e.target.value;render()};
   v.querySelectorAll(".trip").forEach(el=>{const o=()=>openTrip(el.dataset.id);el.onclick=o;el.onkeydown=e=>{if(e.key==="Enter")o()}});
 }
+const TROPHY_C={1:["#FFE58A","#E3A91B","#B7860B","금"],2:["#F2F5F8","#AEB8C2","#7F8B96","은"],3:["#F3C29B","#C97F47","#94562A","동"]};
+function trophy(r){const [hi,mid,lo,nm]=TROPHY_C[r];return `<div class="trophy" role="img" aria-label="${r}위 ${nm} 트로피"><svg viewBox="0 0 48 56" aria-hidden="true">
+<defs><linearGradient id="tg${r}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${hi}"/><stop offset=".55" stop-color="${mid}"/><stop offset="1" stop-color="${lo}"/></linearGradient></defs>
+<path d="M12 6h24v12a12 12 0 0 1-24 0z" fill="url(#tg${r})" stroke="${lo}" stroke-width="1.5"/>
+<path d="M12 9H5v4a8 8 0 0 0 8 8M36 9h7v4a8 8 0 0 1-8 8" fill="none" stroke="url(#tg${r})" stroke-width="3.2" stroke-linecap="round"/>
+<path d="M21 29h6v7h-6z" fill="url(#tg${r})"/><path d="M15 36h18l2 8H13z" fill="url(#tg${r})" stroke="${lo}" stroke-width="1.2"/>
+<rect x="11" y="44" width="26" height="6" rx="1.5" fill="${lo}"/>
+<path d="M16 9c0 5 1 9 4 12" stroke="#fff" stroke-width="2" stroke-linecap="round" fill="none" opacity=".55"/>
+<text x="24" y="21" text-anchor="middle" font-size="11" font-weight="800" font-family="system-ui,sans-serif" fill="#fff" stroke="${lo}" stroke-width=".6">${r}</text></svg></div>`}
 function renderFame(v){
   const big=state.fameTab==="big";
   const spName=f=>(f.species||"").trim()||"어종 미입력";
@@ -465,7 +521,7 @@ function renderFame(v){
       const sub=big&&f.weight?` <span class="wt">${esc(f.weight)}kg</span>`:"";
       return `<article class="fame${i<3?" top":""}" data-id="${f.id}">
         ${f.photo?`<button class="ph" type="button" data-photo="${f.id}" aria-label="사진 크게 보기"><img src="${f.photo}" alt="${esc(f.species)} 사진" loading="lazy"></button>`:""}
-        <div class="fb"><div class="rank r${i+1}">${i+1}</div>
+        <div class="fb">${i<3?trophy(i+1):`<div class="rank">${i+1}</div>`}
           <div class="fi"><div class="fn">${esc(f.species||"어종 미입력")}</div><div class="big">${n}${sub}</div>
           <div class="meta">${[f.date?f.date.replace(/-/g,"."):"",f.place,f.boat].filter(Boolean).map(esc).join(" / ")}</div>
           ${f.tackle?`<div class="meta">채비 ${esc(f.tackle)}</div>`:""}</div>
@@ -696,6 +752,72 @@ addEventListener("beforeinstallprompt",e=>{e.preventDefault();installEvt=e;$("#i
 $("#install").onclick=async()=>{if(!installEvt)return;installEvt.prompt();await installEvt.userChoice;installEvt=null;$("#install").hidden=true};
 addEventListener("appinstalled",()=>{$("#install").hidden=true});
 if("serviceWorker" in navigator)addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
+
+/* ---------- level (based on number of trip records) ---------- */
+const LV_IC={
+ fry:'<svg viewBox="0 0 48 48"><path d="M8 24c6-8 18-10 26-4l6-5v18l-6-5c-8 6-20 4-26-4z" fill="#8FD3F5"/><path d="M8 24c6 8 18 10 26 4" fill="#C9ECFB"/><circle cx="15" cy="22" r="2.4" fill="#0E3A55"/><path d="M22 18c2 3 2 9 0 12" stroke="#5DB8E6" stroke-width="1.6" fill="none"/></svg>',
+ star:'<svg viewBox="0 0 48 48"><path d="M24 5l5.3 12.6 13.6 1.2-10.3 8.9 3.1 13.3L24 34l-11.7 7 3.1-13.3L5.1 18.8l13.6-1.2z" fill="#FF8A5B" stroke="#E86A3A" stroke-width="2" stroke-linejoin="round"/><g fill="#FFD2BD"><circle cx="24" cy="15" r="1.6"/><circle cx="32" cy="21" r="1.6"/><circle cx="16" cy="21" r="1.6"/><circle cx="20" cy="30" r="1.6"/><circle cx="28" cy="30" r="1.6"/></g><circle cx="21" cy="23" r="1.8" fill="#0E3A55"/><circle cx="27" cy="23" r="1.8" fill="#0E3A55"/></svg>',
+ squid:'<svg viewBox="0 0 48 48"><path d="M24 3c7 6 10 13 10 21H14c0-8 3-15 10-21z" fill="#F7A8C4"/><path d="M14 24l-4 4M34 24l4 4" stroke="#F7A8C4" stroke-width="3" stroke-linecap="round"/><path d="M14 24h20v6H14z" fill="#F3B9CE"/><g stroke="#EE8FB2" stroke-width="3" stroke-linecap="round" fill="none"><path d="M17 30c0 6-3 8-3 13"/><path d="M21 30c0 6-1 9-1 14"/><path d="M27 30c0 6 1 9 1 14"/><path d="M31 30c0 6 3 8 3 13"/></g><circle cx="20" cy="26" r="2.2" fill="#0E3A55"/><circle cx="28" cy="26" r="2.2" fill="#0E3A55"/></svg>',
+ tai:'<svg viewBox="0 0 48 48"><path d="M5 25c7-11 21-13 32-6l7-6-2 11 2 11-7-6c-11 7-25 5-32-4z" fill="#F26D6D"/><path d="M12 15c6-6 16-6 22 0-8-1-15 0-22 4z" fill="#E24E4E"/><path d="M5 25c7 9 21 11 32 4" fill="#F9B5A8"/><circle cx="12" cy="23" r="2.4" fill="#0E3A55"/><g fill="#7FD0F2"><circle cx="20" cy="22" r="1.2"/><circle cx="25" cy="21" r="1.2"/><circle cx="30" cy="22" r="1.2"/><circle cx="23" cy="26" r="1.2"/><circle cx="28" cy="26" r="1.2"/></g></svg>',
+ whale:'<svg viewBox="0 0 48 48"><path d="M4 28c0-9 8-15 19-15 10 0 16 6 17 12l5-5-1 9c-2 7-10 12-21 12C12 41 4 36 4 28z" fill="#3D8FDE"/><path d="M6 31c4 6 11 9 18 9 8 0 14-3 17-8-8 3-24 4-35-1z" fill="#CFE6FA"/><circle cx="14" cy="25" r="2.2" fill="#0E3A55"/><path d="M20 12c0-4-3-5-3-8M20 12c0-4 3-5 3-8" stroke="#7FC7F2" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M11 29q3 2 6 0" stroke="#0E3A55" stroke-width="1.4" fill="none" stroke-linecap="round"/></svg>'
+};
+const LEVELS=[
+ {lv:0,min:0,name:"치어",ic:"fry",desc:"이제 막 물에 들어왔어요"},
+ {lv:1,min:10,name:"불가사리",ic:"star",desc:"출조 기록 10개"},
+ {lv:2,min:50,name:"오징어",ic:"squid",desc:"출조 기록 50개"},
+ {lv:3,min:100,name:"참돔",ic:"tai",desc:"출조 기록 100개"},
+ {lv:4,min:500,name:"고래",ic:"whale",desc:"출조 기록 500개"}
+];
+const ADMIN_HASH="38d29feeb94bfa779a06ea1ecd1e9ae7ff8b5ca1ad2d36b674ca6f415b6a2dff";
+const OWNER_BUILD=false;
+const isAdmin=()=>{if(OWNER_BUILD)return true;try{return localStorage.getItem("fishlog:admin")===ADMIN_HASH}catch{return false}};
+async function adminHash(c){const norm=String(c).toUpperCase().replace(/[^A-Z0-9]/g,"");
+  const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode("nakssi-admin:"+norm));
+  return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}
+const levelOf=n=>[...LEVELS].reverse().find(l=>n>=l.min);
+function updateLevel(){
+  const n=state.trips.length,L=levelOf(n);
+  if(isAdmin()){
+    $("#lvl-ic").innerHTML=LV_IC.whale;$("#lvl-tx").textContent="방장";$("#lvl").className="lvl lv-admin";
+    $("#lvl").setAttribute("aria-label",`슈퍼방장 고래 레벨, 출조 기록 ${n}개`);return;
+  }
+  $("#lvl").className="lvl lv-"+L.lv;
+  $("#lvl-ic").innerHTML=LV_IC[L.ic];$("#lvl-tx").textContent="Lv."+L.lv;
+  $("#lvl").setAttribute("aria-label",`내 레벨 Lv.${L.lv} ${L.name}, 출조 기록 ${n}개`);
+  if(!state.ready)return;
+  let last=null;try{last=localStorage.getItem("fishlog:lastLevel")}catch{}
+  try{localStorage.setItem("fishlog:lastLevel",String(L.lv))}catch{}
+  if(last!==null&&+last<L.lv)openLevel(true);
+}
+function openLevel(up){
+  const n=state.trips.length;
+  if(isAdmin()){
+    $("#lvl-body").innerHTML=`<div class="lv-now"><div class="lv-up">SUPER CAPTAIN</div><div class="big-ic ring lv-admin">${LV_IC.whale}</div>
+      <h3>슈퍼방장 · 고래</h3><p>방장 전용 최고 레벨이에요 · 출조 기록 ${n}개</p></div>
+      <ul class="lv-list">${LEVELS.map(l=>`<li class="${l.ic==="whale"?"cur":""}"><span class="ic ring ${l.ic==="whale"?"lv-admin":"lv-"+l.lv}">${LV_IC[l.ic]}</span><span class="t"><b>Lv.${l.lv} ${l.name}</b><span>${l.desc}</span></span>${l.ic==="whale"?'<span class="tag">방장</span>':""}</li>`).join("")}</ul>
+      ${OWNER_BUILD?"":`<p class="adm-row"><button class="link" type="button" id="adm-off">이 폰에서 방장 인증 해제</button></p>`}`;
+    const off=$("#adm-off");if(off)off.onclick=()=>{try{localStorage.removeItem("fishlog:admin")}catch{};$("#lvl-dlg").close();render()};
+    const d=$("#lvl-dlg");if(!d.open)d.showModal();return;
+  }
+  const L=levelOf(n),next=LEVELS.find(l=>l.min>n);
+  const pct=next?Math.round((n-L.min)/(next.min-L.min)*100):100;
+  $("#lvl-body").innerHTML=`<div class="lv-now">${up?'<div class="lv-up">LEVEL UP!</div>':""}<div class="big-ic ring lv-${L.lv}">${LV_IC[L.ic]}</div>
+    <h3>Lv.${L.lv} ${L.name}</h3><p>출조 기록 ${n}개</p></div>
+    <div class="lv-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}"><i style="width:${pct}%"></i></div>
+    <p class="none" style="text-align:center;margin:0">${next?`다음 레벨 <b>${next.name}</b>까지 ${next.min-n}개 남았어요`:"최고 레벨이에요. 바다의 왕!"}</p>
+    <ul class="lv-list">${LEVELS.map(l=>`<li class="${n>=l.min?"":"lock"} ${l.lv===L.lv?"cur":""}"><span class="ic ring lv-${l.lv}">${LV_IC[l.ic]}</span><span class="t"><b>Lv.${l.lv} ${l.name}</b><span>${l.desc}</span></span>${l.lv===L.lv?'<span class="tag">현재</span>':""}</li>`).join("")}</ul>
+    <p class="adm-row"><button class="link" type="button" id="adm-open">방장 인증</button></p>
+    <form class="adm-form" id="adm-form" hidden autocomplete="off"><input id="adm-code" placeholder="방장 코드" autocapitalize="characters" spellcheck="false" aria-label="방장 코드"><button class="btn primary sm" type="submit">확인</button></form>
+    <p class="adm-msg" id="adm-msg" role="status"></p>`;
+  $("#adm-open").onclick=()=>{$("#adm-form").hidden=false;$("#adm-code").focus()};
+  $("#adm-form").onsubmit=async e=>{e.preventDefault();const v=$("#adm-code").value.trim();if(!v)return;
+    if(await adminHash(v)===ADMIN_HASH){try{localStorage.setItem("fishlog:admin",ADMIN_HASH)}catch{};render();openLevel(false)}
+    else{$("#adm-msg").textContent="방장 코드가 맞지 않아요."}};
+  const d=$("#lvl-dlg");if(!d.open)d.showModal();
+}
+$("#lvl").onclick=()=>openLevel(false);
+$("#lvl-close").onclick=()=>$("#lvl-dlg").close();
+$("#lvl-dlg").onclick=e=>{if(e.target.id==="lvl-dlg")$("#lvl-dlg").close()};
 
 /* ---------- notices (bell) ---------- */
 const NOTICES_FALLBACK=[
