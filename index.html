@@ -40,9 +40,9 @@ body{margin:0;background:var(--bg);color:var(--ink);
   font-family:"IBM Plex Sans KR",system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
   font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
 .wrap{max-width:640px;margin:0 auto;padding:0 18px 120px}
-.hero{position:relative;height:clamp(280px,62vw,380px);overflow:hidden;background:#8FD8FF;color:#0E3A55}
+.hero{position:relative;height:clamp(290px,64vw,390px);overflow:hidden;background:#8FD8FF;color:#0E3A55}
 .hero>svg{position:absolute;inset:0;width:100%;height:100%;display:block}
-.hero-text{position:absolute;left:0;right:0;top:26px;max-width:640px;margin:0 auto;padding:0 18px}
+.hero-text{position:absolute;left:0;right:0;top:24px;max-width:640px;margin:0 auto;padding:0 18px}
 .hero h1{text-shadow:0 2px 16px rgba(255,255,255,.55)}
 .hero .sub{color:rgba(14,58,85,.75);font-weight:600}
 .wrap{position:relative;margin-top:-26px}
@@ -203,7 +203,7 @@ body.locked #lock{display:grid}
 .calitem h4{margin:0;font-size:1rem}
 .cmemo{font-size:.88rem;margin-top:4px;white-space:pre-wrap}
 .none{color:var(--muted);font-size:.9rem;margin:6px 0 2px}
-.hero-bar{position:absolute;left:0;right:0;top:20px;max-width:640px;margin:0 auto;padding:0 18px;display:flex;justify-content:flex-end;z-index:2;pointer-events:none}
+.hero-bar{position:absolute;left:0;right:0;top:18px;max-width:640px;margin:0 auto;padding:0 18px;display:flex;justify-content:flex-end;z-index:2;pointer-events:none}
 .hero-bar{gap:8px;align-items:center}
 .lvl{pointer-events:auto;height:46px;border:0;border-radius:999px;background:rgba(255,255,255,.92);color:#0E3A55;display:flex;align-items:center;gap:6px;
   padding:0 14px 0 5px;font:inherit;cursor:pointer;box-shadow:0 4px 14px rgba(14,58,85,.22)}
@@ -262,6 +262,28 @@ body.locked #lock{display:grid}
 .notice .new{background:var(--buoy);color:#fff;border-radius:999px;padding:1px 8px;font-size:.7rem;font-weight:700}
 .notice h3{margin:4px 0 6px;font-size:1.05rem}
 .notice p{margin:0;white-space:pre-wrap;font-size:.93rem;line-height:1.6}
+.set-row{padding:6px 0 4px}.set-lb{font-weight:700;margin-bottom:8px}
+.set-hint{font-size:.82rem;color:var(--muted);margin:8px 2px 0}
+.set-foot{text-align:center;font-size:.8rem;color:var(--muted);margin:22px 0 0}
+.gear svg circle{fill:rgba(255,255,255,.95)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .hero .night{opacity:.55}:root:not([data-theme="light"]) .hero .sun{opacity:0}:root:not([data-theme="light"]) .hero .stars,:root:not([data-theme="light"]) .hero .moon{opacity:.9}
+  :root:not([data-theme="light"]) .hero{color:#fff}:root:not([data-theme="light"]) .hero h1{text-shadow:0 2px 14px rgba(0,0,0,.45)}:root:not([data-theme="light"]) .hero .sub{color:rgba(255,255,255,.85)}
+  :root:not([data-theme="light"]) .bell,:root:not([data-theme="light"]) .lvl{background-color:rgba(18,48,73,.92);color:#EAF5FC}
+  :root:not([data-theme="light"]) .lvl{background:linear-gradient(rgba(18,48,73,.95),rgba(18,48,73,.95)) padding-box,var(--ring,#123049) border-box}
+  :root:not([data-theme="light"]) .gear svg circle{fill:#123049}}
+:root[data-theme="dark"] .hero .night{opacity:.55}:root[data-theme="dark"] .hero .sun{opacity:0}:root[data-theme="dark"] .hero .stars,:root[data-theme="dark"] .hero .moon{opacity:.9}
+:root[data-theme="dark"] .hero{color:#fff}:root[data-theme="dark"] .hero h1{text-shadow:0 2px 14px rgba(0,0,0,.45)}:root[data-theme="dark"] .hero .sub{color:rgba(255,255,255,.85)}
+:root[data-theme="dark"] .bell{background-color:rgba(18,48,73,.92);color:#EAF5FC}
+:root[data-theme="dark"] .lvl{color:#EAF5FC;background:linear-gradient(rgba(18,48,73,.95),rgba(18,48,73,.95)) padding-box,var(--ring,#123049) border-box}
+:root[data-theme="dark"] .gear svg circle{fill:#123049}
+.hero-bar{align-items:flex-start}
+.hero-bar .bell:not(.gear){order:3}
+.hero-bar .lvl{order:1}
+.hero-bar .gear{order:4;position:absolute;right:20px;top:60px;width:42px;height:42px}
+.hero-bar .gear svg{width:22px;height:22px}
+.hero-text h1{padding-right:0;white-space:nowrap}
+.hero-text .sub{padding-right:52px;font-size:clamp(.72rem,3.3vw,1rem);line-height:1.45;white-space:nowrap}
+@media (max-width:370px){.hero-text h1{font-size:2rem}}
 .hint{font-size:.82rem;color:var(--muted);margin-top:6px}
 .link{background:none;border:0;padding:0;font:inherit;color:var(--kelp);text-decoration:underline;cursor:pointer}
 :root[data-theme="dark"] .link{color:var(--lure)}
@@ -270,6 +292,7 @@ body.locked #lock{display:grid}
 .loading{padding:40px 0;text-align:center;color:var(--muted)}
 @media (prefers-reduced-motion:no-preference){dialog[open]{animation:up .22s ease-out}@keyframes up{from{transform:translateY(24px);opacity:.4}}}
 </style>
+<script>try{var t=localStorage.getItem("fishlog:theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 </head>
 <body>
 <div id="lock" role="dialog" aria-modal="true" aria-labelledby="lock-title">
@@ -299,16 +322,16 @@ body.locked #lock{display:grid}
       </radialGradient>
     </defs>
     <rect width="400" height="172" fill="url(#sky)"/>
-    <circle cx="330" cy="58" r="90" fill="url(#sunglow)"/>
+    <g class="sun"><circle cx="330" cy="58" r="90" fill="url(#sunglow)"/>
     <circle cx="330" cy="58" r="26" fill="#FFE58A"/>
-    <circle cx="330" cy="58" r="26" fill="none" stroke="#FFF6D8" stroke-width="3"/>
+    <circle cx="330" cy="58" r="26" fill="none" stroke="#FFF6D8" stroke-width="3"/></g>
     <g fill="#FFFFFF" opacity=".85">
       <ellipse cx="270" cy="118" rx="26" ry="10"/><ellipse cx="292" cy="112" rx="19" ry="9"/><ellipse cx="252" cy="114" rx="15" ry="8"/>
       <ellipse cx="30" cy="22" rx="20" ry="8"/><ellipse cx="46" cy="18" rx="14" ry="7"/>
     </g>
     <g fill="none" stroke="#0E3A55" stroke-width="2" stroke-linecap="round" opacity=".55">
-      <path d="M120 88 q5 -5 10 0 q5 -5 10 0"/><path d="M150 72 q4 -4 8 0 q4 -4 8 0"/>
-      <path d="M258 96 q5 -5 10 0 q5 -5 10 0"/>
+      <path d="M226 110 q5 -5 10 0 q5 -5 10 0"/><path d="M252 100 q4 -4 8 0 q4 -4 8 0"/>
+      <path d="M284 114 q4 -4 8 0 q4 -4 8 0"/>
     </g>
     <rect y="172" width="400" height="88" fill="url(#sea)"/>
     <g fill="#FFFFFF" opacity=".55">
@@ -340,9 +363,12 @@ body.locked #lock{display:grid}
     <g fill="none" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" opacity=".95">
       <ellipse cx="292" cy="153" rx="13" ry="2.6"/><ellipse cx="292" cy="153" rx="20" ry="4" opacity=".6"/>
     </g>
+    <rect class="night" width="400" height="260" fill="#04162A" opacity="0"/>
+    <g class="stars" opacity="0" fill="#FFFFFF"><circle cx="40" cy="30" r="1.2"/><circle cx="120" cy="18" r="1"/><circle cx="190" cy="44" r="1.3"/><circle cx="260" cy="22" r="1"/><circle cx="380" cy="40" r="1.2"/><circle cx="90" cy="70" r=".9"/><circle cx="230" cy="80" r="1"/></g>
+    <circle class="moon" cx="330" cy="58" r="20" fill="#FFF3C4" opacity="0"/>
     <path d="M0 260 L0 214 Q40 202 80 210 T160 210 T240 206 T320 212 T400 206 L400 260Z" fill="var(--bg)"/>
   </svg>
-  <div class="hero-bar"><button class="lvl" id="lvl" type="button" aria-label="내 레벨 보기"><span class="lvl-ic" id="lvl-ic"></span><b id="lvl-tx">Lv.0</b></button><button class="bell" id="bell" type="button" aria-label="공지사항 보기">
+  <div class="hero-bar"><button class="lvl" id="lvl" type="button" aria-label="내 레벨 보기"><span class="lvl-ic" id="lvl-ic"></span><b id="lvl-tx">Lv.0</b></button><button class="bell gear" id="gear" type="button" aria-label="설정" data-slot="under"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.4 13.5a7.7 7.7 0 0 0 0-3l2-1.6-2-3.4-2.4 1a7.6 7.6 0 0 0-2.6-1.5L14 2.5h-4l-.4 2.5A7.6 7.6 0 0 0 7 6.5l-2.4-1-2 3.4 2 1.6a7.7 7.7 0 0 0 0 3l-2 1.6 2 3.4 2.4-1a7.6 7.6 0 0 0 2.6 1.5l.4 2.5h4l.4-2.5a7.6 7.6 0 0 0 2.6-1.5l2.4 1 2-3.4z" fill="currentColor"/><circle cx="12" cy="12" r="3.2" fill="#fff"/></svg></button><button class="bell" id="bell" type="button" aria-label="공지사항 보기">
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a6 6 0 0 0-6 6v3.6L4.3 15.4A1 1 0 0 0 5.2 17h13.6a1 1 0 0 0 .9-1.6L18 12.6V9a6 6 0 0 0-6-6Z" fill="currentColor"/><path d="M9.5 18.5a2.5 2.5 0 0 0 5 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
     <span class="badge" id="bell-badge" hidden></span></button></div>
   <div class="hero-text">
@@ -365,13 +391,19 @@ body.locked #lock{display:grid}
     <input type="file" id="import" accept="application/json,.json" class="import-file">
   </section>
   <p class="note" id="mode"></p>
-  <p class="credit">- 제작 안승민 -</p>
+  <p class="credit">- 제작 안민곰 -</p>
 </div>
 <button class="fab" id="fab">+ 출조 기록 추가</button>
 
 <dialog id="lvl-dlg" aria-labelledby="lvl-title"><div class="notice-wrap">
   <div class="notice-head"><h2 id="lvl-title">내 레벨</h2><button class="btn ghost sm" id="lvl-close" type="button">닫기</button></div>
   <div id="lvl-body"></div></div></dialog>
+<dialog id="set-dlg" aria-labelledby="set-title"><div class="notice-wrap">
+  <div class="notice-head"><h2 id="set-title">설정</h2><button class="btn ghost sm" id="set-close" type="button">닫기</button></div>
+  <div class="set-row"><div class="set-lb">화면 모드</div>
+    <div class="seg" role="radiogroup" aria-label="화면 모드"><button type="button" data-theme-opt="auto">자동</button><button type="button" data-theme-opt="light">화이트</button><button type="button" data-theme-opt="dark">다크</button></div>
+    <p class="set-hint">자동은 폰의 다크 모드 설정을 따라가요.</p></div>
+  <p class="set-foot">낚시매니저 · 제작 안민곰</p></div></dialog>
 <dialog id="notice-dlg" aria-labelledby="notice-title"><div class="notice-wrap">
   <div class="notice-head"><h2 id="notice-title">공지사항</h2><button class="btn ghost sm" id="notice-close" type="button">닫기</button></div>
   <div id="notice-list"></div></div></dialog>
@@ -819,9 +851,21 @@ $("#lvl").onclick=()=>openLevel(false);
 $("#lvl-close").onclick=()=>$("#lvl-dlg").close();
 $("#lvl-dlg").onclick=e=>{if(e.target.id==="lvl-dlg")$("#lvl-dlg").close()};
 
+/* ---------- settings (theme) ---------- */
+function applyTheme(t){
+  if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);else document.documentElement.removeAttribute("data-theme");
+  try{t==="light"||t==="dark"?localStorage.setItem("fishlog:theme",t):localStorage.removeItem("fishlog:theme")}catch{}
+  document.querySelectorAll("[data-theme-opt]").forEach(b=>b.setAttribute("aria-selected",b.dataset.themeOpt===(t||"auto")));
+}
+function curTheme(){try{return localStorage.getItem("fishlog:theme")||"auto"}catch{return"auto"}}
+$("#gear").onclick=()=>{applyTheme(curTheme());$("#set-dlg").showModal()};
+$("#set-close").onclick=()=>$("#set-dlg").close();
+$("#set-dlg").onclick=e=>{if(e.target.id==="set-dlg")$("#set-dlg").close()};
+document.querySelectorAll("[data-theme-opt]").forEach(b=>b.onclick=()=>applyTheme(b.dataset.themeOpt));
+
 /* ---------- notices (bell) ---------- */
 const NOTICES_FALLBACK=[
-  {"id":"welcome","date":"2026-09-26","title":"낚시매니저에 오신 걸 환영해요!","body":"출조 기록, 태클관리, 출조 캘린더, 명예의 전당까지 편하게 써 보세요.\n새 기능이나 소식이 생기면 이곳 공지사항으로 알려드릴게요.\n\n- 제작 안승민 -"}
+  {"id":"welcome","date":"2026-09-26","title":"낚시매니저에 오신 걸 환영해요!","body":"출조 기록, 태클관리, 출조 캘린더, 명예의 전당까지 편하게 써 보세요.\n새 기능이나 소식이 생기면 이곳 공지사항으로 알려드릴게요.\n\n- 제작 안민곰 -"}
 ];
 let notices=NOTICES_FALLBACK;
 const seenIds=()=>{try{return JSON.parse(localStorage.getItem("fishlog:seenNotices")||"[]")}catch{return[]}};
